@@ -1,6 +1,11 @@
 from discord.ext import commands
 import discord
 import time
+import json
+from pathlib import Path
+import random
+
+file_path = Path("database/afk.json")
 
 
 class TestCogCommands(commands.Cog):
@@ -8,6 +13,9 @@ class TestCogCommands(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.last_msg = None
+        self.file = None
+        self.json_content = None
+        self.key = 0
 
     @commands.command(name="ping")
     async def ping(self, ctx: commands.Context):
@@ -51,23 +59,56 @@ class TestCogCommands(commands.Cog):
 
     @commands.command(name="afk")
     async def afk(self, ctx, *, message="They didn't leave a message!"):
-        if ctx.message.author in self.bot.afkdict:
-            self.bot.afkdict.pop(ctx.message.author)
+        if str(ctx.message.author) in self.bot.afkdict:
+            self.bot.afkdict.pop(str(ctx.message.author))
+            self.saveData(self.bot.afkdict)
             await ctx.send('Welcome back! You are no longer afk.')
+
         else:
-            self.bot.afkdict[ctx.message.author] = message
+            self.bot.afkdict[str(ctx.message.author)] = message
             await ctx.send("You are now afk. Beware of the real world!")
+        self.saveData(self.bot.afkdict)
 
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.id == self.bot.user.id:
             return
 
+        self.bot.afkdict = self.getData()
+
         for member in message.mentions:
-            if member != message.author and member in self.bot.afkdict:
+
+            if member != message.author and member.name + "#" + str(member.discriminator) in self.bot.afkdict.keys():
+                name = member.name + "#" + str(member.discriminator)
                 await message.reply(
-                    content=f"Oh noes! {member.mention} is currently AFK.\nReason: **{self.bot.afkdict[member]}**",
-                    delete_after=20)
+                    content=f"Oh noes! {member.mention} is currently AFK.\nReason: **{self.bot.afkdict[name]}**")
+
+    @commands.command(name="getquote")
+    async def getquote(self, ctx):
+        quote = self.getQuote()
+        await ctx.send("Your quote : " + quote)
+
+    def getData(self):
+        self.file = open(file_path, "r")
+        self.json_content = json.load(self.file)
+        self.file.close()
+        return self.json_content
+
+    def saveData(self, afkdict):
+        self.file = open(file_path, "w")
+        self.json_content = json.dumps(afkdict)
+        self.file.write(self.json_content)
+        self.file.close()
+
+    def getQuote(self):
+        self.file = open("database/quotes.json", "r")
+        content = json.load(self.file)
+        quote = random.choice(list(content.values()))
+        self.file.close()
+        return quote
+
+
+
 
 
 def setup(bot: commands.Bot):
