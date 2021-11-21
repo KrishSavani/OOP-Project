@@ -19,8 +19,6 @@ bot.load_extension("cogs.firstcog")
 
 bot.afkdict = {}
 
-print(bot.afkdict)
-
 
 @bot.event
 async def on_ready():
