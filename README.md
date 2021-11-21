@@ -21,7 +21,7 @@ Click on the links to check the documentation for each tech stack used in the pr
 ## Features
 
 - Ping Reaction Message
-- AFK Handler for Discord
+- AFK Handler Discord
 - Random Quotes Generator 
 
 ## How to set up the bot
@@ -43,21 +43,14 @@ Click on the links to check the documentation for each tech stack used in the pr
 - Give scopes and add bot permissions from the portal. 
 - Copy the generated url, run it in your browser and then authorize the bot from there.
 
-## OOP Concepts used
-
-- Classes
-- Inheritence
-- Event Decorators
-- File Handling (JSON)
-
 ## Credits
 
 - [@KrishSavani](https://github.com/KrishSavani) - 20124041
-- [@OhmPatil](https://github.com/OhmPatil) - 20124034
 - [@KunalMali](https://github.com/kunal299) - 20124014
+- [@OhmPatil](https://github.com/OhmPatil) - 20124034
 
 ## Special thanks to:
-Jaideep Sir for guiding us!
+Jaideep Raulji Sir for guiding us!
 
 
 Licensed under MIT
