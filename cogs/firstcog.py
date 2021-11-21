@@ -108,8 +108,5 @@ class TestCogCommands(commands.Cog):
         return quote
 
 
-
-
-
 def setup(bot: commands.Bot):
     bot.add_cog(TestCogCommands(bot))
