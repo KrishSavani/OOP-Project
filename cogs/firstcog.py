@@ -49,6 +49,26 @@ class TestCogCommands(commands.Cog):
     async def on_message_delete(self, message: discord.Message):
         self.last_msg = message
 
+    @commands.command(name="afk")
+    async def afk(self, ctx, *, message="They didn't leave a message!"):
+        if ctx.message.author in self.bot.afkdict:
+            self.bot.afkdict.pop(ctx.message.author)
+            await ctx.send('Welcome back! You are no longer afk.')
+        else:
+            self.bot.afkdict[ctx.message.author] = message
+            await ctx.send("You are now afk. Beware of the real world!")
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.author.id == self.bot.user.id:
+            return
+
+        for member in message.mentions:
+            if member != message.author and member in self.bot.afkdict:
+                await message.reply(
+                    content=f"Oh noes! {member.mention} is currently AFK.\nReason: **{self.bot.afkdict[member]}**",
+                    delete_after=20)
+
 
 def setup(bot: commands.Bot):
     bot.add_cog(TestCogCommands(bot))
