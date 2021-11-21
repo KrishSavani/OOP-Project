@@ -4,8 +4,6 @@ from dotenv import load_dotenv
 from os import getenv
 import discord
 
-
-
 load_dotenv()
 
 token = getenv("TOKEN")
@@ -18,5 +16,18 @@ intents.members = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 bot.load_extension("cogs.firstcog")
+
+bot.afkdict = {}
+
+print(bot.afkdict)
+
+
+@bot.event
+async def on_ready():
+    print(
+        f'{bot.user} is live!\n'
+
+    )
+
 
 bot.run(token)
