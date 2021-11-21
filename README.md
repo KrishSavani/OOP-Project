@@ -45,4 +45,4 @@ Click on the links to check the documentation for each tech stack used in the pr
 
 - [@KrishSavani](https://github.com/KrishSavani)
 - [@KunalMali](https://github.com/kunal299)
-- [@OhmPatil]()
+- [@OhmPatil](https://github.com/OhmPatil)
