@@ -1,12 +1,14 @@
-# Name of the bot
+# COGSBOT
  
 [![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/for-you.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
+
+Group Project for OOP!
 
 It is a simple discord bot made using python that has a few commands included in it. This is a project which is mainly intended for learning and can be used by anyone to learn concepts from it. You can invite it to your Discord server using [this]() link!
 
 If you liked this repository, feel free to leave a star ⭐ 
 
-## Tech Stack
+## Tech Stacks
 The project is mainly based on Object Oriented Programming Paradigm.
 Click on the links to check the documentation for each tech stack used in the project.
 
@@ -18,9 +20,9 @@ Click on the links to check the documentation for each tech stack used in the pr
 
 ## Features
 
-- Feature 1
-- Feature 2 
-- Feature 3
+- Ping Reaction Message
+- AFK Handler Discord
+- Random Quotes Generator 
 
 ## How to set up the bot
 
@@ -43,6 +45,12 @@ Click on the links to check the documentation for each tech stack used in the pr
 
 ## Credits
 
-- [@KrishSavani](https://github.com/KrishSavani)
-- [@KunalMali](https://github.com/kunal299)
-- [@OhmPatil](https://github.com/OhmPatil)
+- [@KrishSavani](https://github.com/KrishSavani) - 20124041
+- [@KunalMali](https://github.com/kunal299) - 20124014
+- [@OhmPatil](https://github.com/OhmPatil) - 20124034
+
+## Special thanks to:
+Jaideep Raulji Sir for guiding us!
+
+###Licensed under MIT
+- [Read more here!](https://github.com/KrishSavani/OOP-Project/blob/main/LICENSE)
