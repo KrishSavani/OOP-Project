@@ -17,6 +17,20 @@ class TestCogCommands(commands.Cog):
         self.json_content = None
         self.key = 0
 
+    @commands.command(name="helpcogs")
+    async def help(self, ctx: commands.Context):
+        """Help command."""
+        embed = discord.Embed(title="Commands Help",
+                              description="Gives a guide on how to use CogsBot (command prefix = !)", color=0xe40101)
+        embed.add_field(name="ping", value="Get the bot's current websocket and API latency.", inline=False)
+        embed.add_field(name="setstatus", value="Set the bot's current discord status.", inline=False)
+        embed.add_field(name="snipeback", value="A command to snipe delete messages.", inline=False)
+        embed.add_field(name="afk", value="Allows you to set yourself as afk and the bot handles the rest.",
+                        inline=True)
+        embed.add_field(name="getquote", value="Get a random quote to make your life better.", inline=False)
+        embed.set_footer(text="Made by Krish, Ohm and Kunal")
+        await ctx.send(embed=embed)
+
     @commands.command(name="ping")
     async def ping(self, ctx: commands.Context):
         """Get the bot's current websocket and API latency."""
@@ -29,6 +43,7 @@ class TestCogCommands(commands.Cog):
 
     @commands.command(name="setstatus")
     async def set_status(self, ctx: commands.Context, *, text: str):
+        """Set the bot's current discord status."""
         await self.bot.change_presence(activity=discord.Game(name=text))
 
     @commands.command(name="snipeback")
@@ -46,7 +61,7 @@ class TestCogCommands(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
-        channel = self.bot.get_channel(857609403703361547)
+        channel = self.bot.get_channel(912185169614626836)
 
         if not channel:
             return
@@ -59,6 +74,7 @@ class TestCogCommands(commands.Cog):
 
     @commands.command(name="afk")
     async def afk(self, ctx, *, message="They didn't leave a message!"):
+        """Allows you to set yourself as afk and the bot handles the rest."""
         if str(ctx.message.author) in self.bot.afkdict:
             self.bot.afkdict.pop(str(ctx.message.author))
             self.saveData(self.bot.afkdict)
@@ -85,6 +101,7 @@ class TestCogCommands(commands.Cog):
 
     @commands.command(name="getquote")
     async def getquote(self, ctx):
+        """Get a random quote to make your life better."""
         quote = self.getQuote()
         await ctx.send("Your quote : " + quote)
 
