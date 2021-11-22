@@ -8,8 +8,9 @@ import random
 file_path = Path("database/afk.json")
 
 
-class TestCogCommands(commands.Cog):
+class TestCogCommands(commands.Cog): # making cog class which inherits the properties of commands.Cog class from commands library
 
+    # initialising required object variables
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.last_msg = None
@@ -17,7 +18,10 @@ class TestCogCommands(commands.Cog):
         self.json_content = None
         self.key = 0
 
-    @commands.command(name="helpcogs")
+    # using commands.command decorator to create a command which takes command name as argument
+    @commands.command(name="helpcogs") 
+
+    # defining help command body
     async def help(self, ctx: commands.Context):
         """Help command."""
         embed = discord.Embed(title="Commands Help",
@@ -29,10 +33,11 @@ class TestCogCommands(commands.Cog):
                         inline=True)
         embed.add_field(name="getquote", value="Get a random quote to make your life better.", inline=False)
         embed.set_footer(text="Made by Krish, Ohm and Kunal")
-        await ctx.send(embed=embed)
+        await ctx.send(embed = embed)
 
+    # defining ping command body
     @commands.command(name="ping")
-    async def ping(self, ctx: commands.Context):
+    async def ping(self, ctx: commands.Context):    # the commands method takes in a context object as the first argument (contextObject: the data taken from the discord server) 
         """Get the bot's current websocket and API latency."""
         start_time = time.time()
         message = await ctx.reply("Testing Ping...")
@@ -41,16 +46,18 @@ class TestCogCommands(commands.Cog):
         await message.edit(
             content=f"Pong! {round(self.bot.latency * 1000)}ms\nAPI: {round((end_time - start_time) * 1000)}ms")
 
+    # defining set_status command body
     @commands.command(name="setstatus")
-    async def set_status(self, ctx: commands.Context, *, text: str):
+    async def set_status(self, ctx: commands.Context, *, text: str):  # "*", arg takes in all the data after the command and puts it in arg
         """Set the bot's current discord status."""
         await self.bot.change_presence(activity=discord.Game(name=text))
 
+    # defining snipeback command body
     @commands.command(name="snipeback")
     async def snipe(self, ctx: commands.Context):
         """A command to snipe delete messages."""
         if not self.last_msg:  # on_message_delete hasn't been triggered since the bot started
-            await ctx.send("There is no message to snipe!")
+            await ctx.send("There is no message to snipe !")
             return
 
         author = self.last_msg.author
@@ -58,6 +65,11 @@ class TestCogCommands(commands.Cog):
 
         embed = discord.Embed(title=f"Message from {author}", description=content)
         await ctx.send(embed=embed)
+
+    # commands.Cog.listener listens to bot events
+    @commands.Cog.listener()
+    async def on_message_delete(self, message: discord.Message):
+        self.last_msg = message
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
@@ -68,10 +80,7 @@ class TestCogCommands(commands.Cog):
 
         await channel.send(f"Welcome, {member}!")
 
-    @commands.Cog.listener()
-    async def on_message_delete(self, message: discord.Message):
-        self.last_msg = message
-
+    # defining afk command
     @commands.command(name="afk")
     async def afk(self, ctx, *, message="They didn't leave a message!"):
         """Allows you to set yourself as afk and the bot handles the rest."""
@@ -85,6 +94,7 @@ class TestCogCommands(commands.Cog):
             await ctx.send("You are now afk. Beware of the real world!")
         self.saveData(self.bot.afkdict)
 
+    # waits for someone to mention people in afkdict and responds accordingly
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.id == self.bot.user.id:
@@ -94,11 +104,14 @@ class TestCogCommands(commands.Cog):
 
         for member in message.mentions:
 
-            if member != message.author and member.name + "#" + str(member.discriminator) in self.bot.afkdict.keys():
-                name = member.name + "#" + str(member.discriminator)
+            name_string = str(member.name + "#" + str(member.discriminator))
+
+            if member != message.author and name_string in self.bot.afkdict.keys():
+                name = name_string
                 await message.reply(
                     content=f"Oh noes! {member.mention} is currently AFK.\nReason: **{self.bot.afkdict[name]}**")
 
+    # defining getquote command
     @commands.command(name="getquote")
     async def getquote(self, ctx):
         """Get a random quote to make your life better."""
@@ -124,6 +137,6 @@ class TestCogCommands(commands.Cog):
         self.file.close()
         return quote
 
-
+# default command used in load extension to load the cogs
 def setup(bot: commands.Bot):
     bot.add_cog(TestCogCommands(bot))
