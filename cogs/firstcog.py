@@ -72,6 +72,22 @@ class TestCogCommands(commands.Cog):
     async def on_message_delete(self, message: discord.Message):
         self.last_msg = message
 
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.author.id == self.bot.user.id:
+            return
+        if "!afk" in message.content:
+            return
+
+        self.bot.afkdict = self.getData()
+
+        for member in message.mentions:
+
+            if member != message.author and member.name + "#" + str(member.discriminator) in self.bot.afkdict.keys():
+                name = member.name + "#" + str(member.discriminator)
+                await message.reply(
+                    content=f"Oh noes! {member.mention} is currently AFK.\nReason: **{self.bot.afkdict[name]}**")
+
     @commands.command(name="afk")
     async def afk(self, ctx, *, message="They didn't leave a message!"):
         """Allows you to set yourself as afk and the bot handles the rest."""
@@ -85,19 +101,6 @@ class TestCogCommands(commands.Cog):
             await ctx.send("You are now afk. Beware of the real world!")
         self.saveData(self.bot.afkdict)
 
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        if message.author.id == self.bot.user.id:
-            return
-
-        self.bot.afkdict = self.getData()
-
-        for member in message.mentions:
-
-            if member != message.author and member.name + "#" + str(member.discriminator) in self.bot.afkdict.keys():
-                name = member.name + "#" + str(member.discriminator)
-                await message.reply(
-                    content=f"Oh noes! {member.mention} is currently AFK.\nReason: **{self.bot.afkdict[name]}**")
 
     @commands.command(name="getquote")
     async def getquote(self, ctx):
